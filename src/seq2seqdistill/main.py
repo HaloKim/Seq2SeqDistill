@@ -1,5 +1,5 @@
 import argparse
-from src.seq2seqdistill.seq2seq_distill_trainer import Seq2SeqDistillTrainer
+from seq2seq_distill_trainer import Seq2SeqDistillTrainer
 
 if __name__ == '__main__':
     # Create the parser
@@ -10,7 +10,7 @@ if __name__ == '__main__':
     parser.add_argument('--num-encoder-layers', type=str, default=3 ,help='student model number of encoder layers')
     parser.add_argument('--num-decoder-layers', type=str, default=3, help='student model number of decoder layers')
     parser.add_argument('--hidden-dim', type=str, default=512, help='huggingface student model hidden dimensions (d_model is 768 for bart-base and 512 for t5-base)')
-    parser.add_argument('--vocab-size', type=str, default=50265, help='student model vocab size, default is 50265')
+    parser.add_argument('--vocab-size', type=str, required=True, help='student model vocab size, default is 50265')
     parser.add_argument('--teacher-local-path', type=str, help='local path of huggingface teacher model name')
     parser.add_argument('--custom-tokenizer-local-path', type=float, help='custom tokenizer local path')
     parser.add_argument('--dataset', type=str, help='huggingface dataset name e.g. cnn_dailymail, samsum etc.')

@@ -2,9 +2,9 @@ from transformers import AutoTokenizer
 from transformers import BartForConditionalGeneration, T5ForConditionalGeneration
 from transformers import BartConfig, T5Config
 from datasets import load_dataset
-from src.seq2seqdistill.distill import DistillationTrainingArguments, DistillationTrainer
+from distill import DistillationTrainingArguments, DistillationTrainer
 from transformers import DataCollatorForSeq2Seq
-from src.seq2seqdistill.utils import load_teacher_model, load_student_model, load_tokenizer, load_distill_dataset
+from utils import load_teacher_model, load_student_model, load_tokenizer, load_distill_dataset
 
 
 class Seq2SeqDistillTrainer:
@@ -59,7 +59,7 @@ class Seq2SeqDistillTrainer:
 
         # load tokenizer
         self.tokenizer = load_tokenizer(self.model_type, self.custom_tokenizer_local_path, self.teacher)
-        self.vocab_size = self.tokenizer.vocab_size
+        self.vocab_size = len(self.tokenizer)
         # load student model
         self.student_model = load_student_model(self.model_type, self.num_encoder_layers, self.num_decoder_layers, self.hidden_dim, self.vocab_size)
         # load teacher model
@@ -130,7 +130,7 @@ class Seq2SeqDistillTrainer:
         print(f"Student Model Hidden Dim = {self.hidden_dim}")
         print(f"Student Model num_encoder_layers = {self.num_encoder_layers}")
         print(f"Student Model num_decoder_layers = {self.num_decoder_layers}")
-        print(f"Student Model vocab_size = {self.tokenizer.vocab_size}")
+        print(f"Student Model vocab_size = {len(self.tokenizer)}")
         
         # Data collator for Seq2Seq tasks: shifts the decoder input to the right by one position
         seq2seq_data_collator = DataCollatorForSeq2Seq(self.tokenizer, model=self.student_model, return_tensors = "pt")

@@ -1,0 +1,1 @@
+python3 src/seq2seqdistill/main.py --model-type t5 --teacher paust/pko-t5-large --num-encoder-layers 12 --num-decoder-layers 12 --hidden-dim 768 --vocab-size 50358 --dataset "daekeun-ml/naver-news-summarization-ko" --dataset-input-column document --dataset-target-column summary --output-dir ./distilled_model

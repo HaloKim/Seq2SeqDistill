@@ -20,7 +20,7 @@ def load_teacher_model(model_type: str, local_path: str, model_name: str) -> Bar
         raise ValueError('model_type must be bart or t5')
     return model
 
-def load_student_model(model_type: str, num_encoder_layers: str, num_decoder_layers:str, hidden_dim:int, vocab_size:str) -> BartForConditionalGeneration or T5ForConditionalGeneration:
+def load_student_model(model_type: str, num_encoder_layers: int, num_decoder_layers:int, hidden_dim:int, vocab_size:int) -> BartForConditionalGeneration or T5ForConditionalGeneration:
     if model_type == 'bart':
         # load bart config
         # Define the configuration
@@ -37,10 +37,11 @@ def load_student_model(model_type: str, num_encoder_layers: str, num_decoder_lay
         # load t5 config
         # Define the configuration
         t5_config = T5Config(
-            d_model=hidden_dim,  # dimensions of the model
-            encoder_layers=num_encoder_layers,  # number of encoder layers
-            decoder_layers=num_decoder_layers,  # number of decoder layers
-            vocab_size=vocab_size,  # vocabulary size
+            d_model=int(hidden_dim),  # dimensions of the model
+            encoder_layers=int(num_encoder_layers),  # number of encoder layers
+            decoder_layers=int(num_decoder_layers),  # number of decoder layers
+            vocab_size=int(vocab_size),  # vocabulary size
+            decoder_start_token_id=0
         )
         # Create the t5 model from the configuration
         student_model = T5ForConditionalGeneration(t5_config)
