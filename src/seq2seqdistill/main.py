@@ -7,6 +7,7 @@ if __name__ == '__main__':
     # Add the arguments
     parser.add_argument('--model-type', required=True, type=str, help='currently only bart and t5 for conditional generation are supported')
     parser.add_argument('--teacher', type=str, help='huggingface teacher model name, e.g. facebook/bart-base, t5-base')
+    parser.add_argument('--student', type=str, help='huggingface student model name, e.g. facebook/bart-base, t5-base')
     parser.add_argument('--num-encoder-layers', type=str, default=3 ,help='student model number of encoder layers')
     parser.add_argument('--num-decoder-layers', type=str, default=3, help='student model number of decoder layers')
     parser.add_argument('--hidden-dim', type=str, default=512, help='huggingface student model hidden dimensions (d_model is 768 for bart-base and 512 for t5-base)')
@@ -22,17 +23,18 @@ if __name__ == '__main__':
     parser.add_argument('--max_length', type=int, default=128, help='maximum length of input sequence')
     parser.add_argument('--batch-size', type=int, default=8, help='batch size for training')
     parser.add_argument('--epochs', type=int, default=3, help='number of epochs for training')
-    parser.add_argument('--learning-rate', type=float, default=5e-5, help='learning rate for training')
+    parser.add_argument('--learning_rate', type=float, default=5e-5, help='learning rate for training')
     parser.add_argument('--fp16', type=bool, default=True, help='use fp16 for training')
     parser.add_argument('--seed', type=int, default=42, help='random seed for training')
     parser.add_argument('--log-interval', type=int, default=10, help='log interval for training')
     parser.add_argument('--gradient-accumulation', type=bool, default=True, help='gradient accumulation for training')
     parser.add_argument('--optimizer', type=str, default='adamw_torch', help='optimizer for training')
     parser.add_argument("--local-rank", type=int, default=0)
+    parser.add_argument("--lr_scheduler_type", type=str, default='constant_with_warmup')
+    parser.add_argument("--warmup_steps", type=int, default=500)
     # Parse the arguments
     args = parser.parse_args()
     # covert arguments to dict
     args_dict = vars(args)
     seq2seq_trainer = Seq2SeqDistillTrainer(args_dict)
     seq2seq_trainer.train()
-
